@@ -2,7 +2,7 @@
   "expo": {
     "name": "isep-lab-showcase",
     "slug": "isep-lab-showcase",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "iseplabshowcase",
