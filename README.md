@@ -86,10 +86,13 @@ src/
 └── data/
 ```
 
-## Release
+## Releases
 
-Current release being prepared:
+Published versions and release notes are available through GitHub Releases.
 
-```text
-v0.2.0 — First laboratory showcase
-```
+Release metadata is maintained in:
+
+- `package.json`
+- `package-lock.json`
+- `app.json`
+- Git tags
