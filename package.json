@@ -1,7 +1,7 @@
 {
   "name": "isep-lab-showcase",
   "main": "expo-router/entry",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "dependencies": {
     "@expo/ui": "~57.0.7",
     "expo": "~57.0.7",
