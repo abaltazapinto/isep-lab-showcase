@@ -17,6 +17,20 @@ export const pgsceSamorinhaProject = {
   howItWorks:
     'The push buttons generate external interrupts that update control flags. The main loop processes those inputs, adjusts the PWM duty cycle, controls the motor direction through the L298N driver, and refreshes the LCD with the current speed and operating state.',
 
+  demonstration:
+    'The video demonstrates motor-speed adjustment, direction control, and real-time LCD feedback.',
+
+  engineeringNote:
+    'In this laboratory setup, LCD instability became visible above approximately 14% PWM duty cycle, likely due to electromagnetic interference and shared power or ground noise from the DC motor.',
+
+  technologies: [
+    'Bare-metal C',
+    'ATmega128A',
+    'Expo',
+    'React Native',
+    'TypeScript',
+  ],
+
   hardware: [
     'ATmega128A microcontroller',
     'L298N dual motor driver',
@@ -46,3 +60,11 @@ export const pgsceSamorinhaProject = {
 
   video: require('../../assets/projects/pgsce-samorinha/isep-lab-demo.mp4'),
 } as const;
+
+export const projects = [pgsceSamorinhaProject] as const;
+
+export type Project = (typeof projects)[number];
+
+export function getProjectById(id: string) {
+  return projects.find((project) => project.id === id);
+}
