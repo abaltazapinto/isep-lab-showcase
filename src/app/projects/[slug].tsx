@@ -1,9 +1,9 @@
-import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Link, useLocalSearchParams } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ProjectGallery } from '@/components/project-gallery';
 import { ProjectVideo } from '@/components/project-video';
-import { useLocalSearchParams } from 'expo-router';
 import { getProjectById, projects } from '@/data/projects';
 
 export function generateStaticParams() {
@@ -37,6 +37,18 @@ export default function HomeScreen() {
       { paddingHorizontal: isDesktop ? 40 : 20 },
       ]}
       >
+      <Link href="/" asChild>
+      <Pressable
+      accessibilityLabel="Back to project catalogue"
+      style={({ pressed }) => [
+      styles.backButton,
+      pressed && styles.backButtonPressed,
+      ]}
+      >
+      <Text style={styles.backButtonText}>← Back to projects</Text>
+      </Pressable>
+      </Link>
+
       <View style={styles.hero}>
       <Text style={styles.eyebrow}>ISEP ENGINEERING LAB</Text>
 
@@ -138,6 +150,23 @@ gap: 48,
 },
 hero: {
 gap: 16,
+},
+backButton: {
+alignSelf: 'flex-start',
+borderWidth: 1,
+borderColor: '#27272a',
+borderRadius: 12,
+backgroundColor: '#18181b',
+paddingHorizontal: 16,
+paddingVertical: 10,
+},
+backButtonPressed: {
+opacity: 0.8,
+},
+backButtonText: {
+color: '#38bdf8',
+fontSize: 15,
+fontWeight: '700',
 },
 eyebrow: {
 color: '#38bdf8',
