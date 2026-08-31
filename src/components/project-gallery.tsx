@@ -7,6 +7,8 @@ import {
   View,
 } from 'react-native';
 
+import { useTheme } from '@/hooks/use-theme';
+
 type ProjectImage = {
   source: ImageSourcePropType;
   description: string;
@@ -18,6 +20,7 @@ type ProjectGalleryProps = {
 
 export function ProjectGallery({ images }: ProjectGalleryProps) {
   const { width } = useWindowDimensions();
+  const theme = useTheme();
 
   const itemWidth: DimensionValue =
     width >= 900 ? '31.5%' : width >= 600 ? '48.5%' : '100%';
@@ -27,7 +30,7 @@ export function ProjectGallery({ images }: ProjectGalleryProps) {
       {images.map((image, index) => (
         <View
           key={`${image.description}-${index}`}
-          style={[styles.item, { width: itemWidth }]}
+          style={[styles.item, { backgroundColor: theme.mediaBackground, width: itemWidth }]}
         >
           <Image
             accessibilityLabel={image.description}
@@ -51,7 +54,6 @@ const styles = StyleSheet.create({
     aspectRatio: 4 / 3,
     overflow: 'hidden',
     borderRadius: 16,
-    backgroundColor: '#18181b',
   },
   image: {
     width: '100%',

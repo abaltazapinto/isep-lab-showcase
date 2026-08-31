@@ -7,17 +7,19 @@ import {
 		TabListProps,
 } from 'expo-router/ui';
 import { SymbolView } from 'expo-symbols';
-import { Pressable, useColorScheme, View, StyleSheet, useWindowDimensions } from 'react-native';
+import { Pressable, View, StyleSheet, useWindowDimensions } from 'react-native';
 
 import { ExternalLink } from './external-link';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
-import { Colors, MaxContentWidth, Spacing } from '@/constants/theme';
+import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { useTheme } from '@/hooks/use-theme';
 
 export default function AppTabs() {
+	const colors = useTheme();
 	return (
 			<Tabs>
-			<TabSlot style={styles.tabSlot} />
+			<TabSlot style={[styles.tabSlot, { backgroundColor: colors.background }]} />
 			<TabList asChild>
 			<CustomTabList>
 			<TabTrigger name="home" href="/" asChild>
@@ -47,8 +49,7 @@ export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps
 }
 
 export function CustomTabList(props: TabListProps) {
-	const scheme = useColorScheme();
-	const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
+	const colors = useTheme();
 	const { width } = useWindowDimensions();
 	const isCompact = width < 520;
 
@@ -57,6 +58,7 @@ export function CustomTabList(props: TabListProps) {
 			{...props}
 			style={[
 			styles.tabListContainer,
+			{ backgroundColor: colors.background },
 			isCompact && styles.tabListContainerCompact,
 			]}
 			>
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
 tabSlot: {
 height: '100%',
 paddingTop: 88,
-backgroundColor: '#09090b',
 },
 tabListContainer: {
 position: 'absolute',
@@ -101,7 +102,6 @@ padding: Spacing.three,
 justifyContent: 'center',
 flexDirection: 'row',
 alignItems: 'center',
-backgroundColor: '#09090b',
 zIndex: 10,
 },
 tabListContainerCompact: {

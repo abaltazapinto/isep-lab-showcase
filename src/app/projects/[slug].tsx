@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ProjectGallery } from '@/components/project-gallery';
 import { ProjectVideo } from '@/components/project-video';
 import { getProjectById, projects } from '@/data/projects';
+import { useTheme } from '@/hooks/use-theme';
 
 export function generateStaticParams() {
   return projects.map((project) => ({
@@ -14,6 +15,7 @@ slug: project.id,
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
+  const theme = useTheme();
   const isDesktop = width >= 768;
 
   const { slug } = useLocalSearchParams<{ slug: string }>();
@@ -21,16 +23,16 @@ export default function HomeScreen() {
 
   if (!project) {
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
         <View style={styles.notFound}>
-        <Text style={styles.sectionTitle}>Project not found</Text>
+        <Text style={[styles.sectionTitle, { color: theme.text }]}>Project not found</Text>
         </View>
         </SafeAreaView>
         );
   }
 
   return (
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
       <ScrollView
       contentContainerStyle={[
       styles.page,
@@ -42,60 +44,61 @@ export default function HomeScreen() {
       accessibilityLabel="Back to project catalogue"
       style={({ pressed }) => [
       styles.backButton,
+      { backgroundColor: theme.backgroundElement, borderColor: theme.border },
       pressed && styles.backButtonPressed,
       ]}
       >
-      <Text style={styles.backButtonText}>← Back to projects</Text>
+      <Text style={[styles.backButtonText, { color: theme.accent }]}>← Back to projects</Text>
       </Pressable>
       </Link>
 
       <View style={styles.hero}>
-      <Text style={styles.eyebrow}>ISEP ENGINEERING LAB</Text>
+      <Text style={[styles.eyebrow, { color: theme.accent }]}>ISEP ENGINEERING LAB</Text>
 
       <Text
       style={[
       styles.title,
-      { fontSize: isDesktop ? 56 : 40 },
+      { color: theme.text, fontSize: isDesktop ? 56 : 40 },
       ]}
       >
       {project.title}
       </Text>
 
-      <Text style={styles.subtitle}>
+      <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
       {project.description}
       </Text>
         </View>
 
-        <Section title="Project overview">
-        <Text style={styles.body}>
+        <Section theme={theme} title="Project overview">
+        <Text style={[styles.body, { color: theme.text }]}>
         {project.howItWorks}
       </Text>
         </Section>
 
-        <Section title="Engineering highlights">
-        <BulletList items={project.highlights} />
+        <Section theme={theme} title="Engineering highlights">
+        <BulletList items={project.highlights} theme={theme} />
         </Section>
 
-        <Section title="Hardware">
-        <BulletList items={project.hardware} />
+        <Section theme={theme} title="Hardware">
+        <BulletList items={project.hardware} theme={theme} />
         </Section>
 
-        <Section title="Project gallery">
+        <Section theme={theme} title="Project gallery">
         <ProjectGallery images={project.images} />
         </Section>
 
-        <Section title="Demonstration">
-        <Text style={styles.body}>{project.demonstration}</Text>
+        <Section theme={theme} title="Demonstration">
+        <Text style={[styles.body, { color: theme.text }]}>{project.demonstration}</Text>
         <ProjectVideo source={project.video} />
 
-        <Text style={styles.engineeringNote}>
+        <Text style={[styles.engineeringNote, { borderLeftColor: theme.accent, color: theme.textSecondary }]}>
         Engineering note: {project.engineeringNote}
       </Text>
 
         </Section>
 
-        <View style={styles.footer}>
-        <Text style={styles.footerText}>
+        <View style={[styles.footer, { borderTopColor: theme.border }]}>
+        <Text style={[styles.footerText, { color: theme.textMuted }]}>
         Built with {project.technologies.join(', ')}.
         </Text>
         </View>
@@ -107,12 +110,13 @@ export default function HomeScreen() {
 type SectionProps = {
 title: string;
 children: React.ReactNode;
+theme: ReturnType<typeof useTheme>;
 };
 
-function Section({ title, children }: SectionProps) {
+function Section({ title, children, theme }: SectionProps) {
   return (
       <View style={styles.section}>
-      <Text style={styles.sectionTitle}>{title}</Text>
+      <Text style={[styles.sectionTitle, { color: theme.text }]}>{title}</Text>
       {children}
       </View>
       );
@@ -120,15 +124,16 @@ function Section({ title, children }: SectionProps) {
 
 type BulletListProps = {
 items: readonly string[];
+theme: ReturnType<typeof useTheme>;
 };
 
-function BulletList({ items }: BulletListProps) {
+function BulletList({ items, theme }: BulletListProps) {
   return (
       <View style={styles.list}>
       {items.map((item) => (
             <View key={item} style={styles.listItem}>
-            <Text style={styles.bullet}>•</Text>
-            <Text style={styles.listText}>{item}</Text>
+            <Text style={[styles.bullet, { color: theme.accent }]}>•</Text>
+            <Text style={[styles.listText, { color: theme.text }]}>{item}</Text>
             </View>
             ))}
       </View>
@@ -138,7 +143,6 @@ function BulletList({ items }: BulletListProps) {
 const styles = StyleSheet.create({
 safeArea: {
 flex: 1,
-backgroundColor: '#09090b',
 },
 page: {
 width: '100%',
@@ -154,9 +158,7 @@ gap: 16,
 backButton: {
 alignSelf: 'flex-start',
 borderWidth: 1,
-borderColor: '#27272a',
 borderRadius: 12,
-backgroundColor: '#18181b',
 paddingHorizontal: 16,
 paddingVertical: 10,
 },
@@ -164,24 +166,20 @@ backButtonPressed: {
 opacity: 0.8,
 },
 backButtonText: {
-color: '#38bdf8',
 fontSize: 15,
 fontWeight: '700',
 },
 eyebrow: {
-color: '#38bdf8',
 fontSize: 13,
 fontWeight: '700',
 letterSpacing: 2,
          },
 title: {
-color: '#fafafa',
        fontWeight: '800',
        lineHeight: 64,
        maxWidth: 850,
        },
 subtitle: {
-color: '#a1a1aa',
        fontSize: 20,
        lineHeight: 30,
        maxWidth: 760,
@@ -190,12 +188,10 @@ section: {
 gap: 20,
          },
 sectionTitle: {
-color: '#fafafa',
        fontSize: 28,
        fontWeight: '700',
               },
 body: {
-color: '#d4d4d8',
        fontSize: 17,
        lineHeight: 28,
        maxWidth: 850,
@@ -209,18 +205,15 @@ flexDirection: 'row',
                gap: 12,
           },
 bullet: {
-color: '#38bdf8',
        fontSize: 20,
        lineHeight: 26,
         },
 listText: {
 flex: 1,
-      color: '#d4d4d8',
       fontSize: 17,
       lineHeight: 26,
           },
 engineeringNote: {
-color: '#a1a1aa',
        fontSize: 14,
        lineHeight: 22,
        fontStyle: 'italic',
@@ -235,7 +228,6 @@ borderTopWidth: 1,
                 paddingTop: 24,
         },
 footerText: {
-color: '#71717a',
        fontSize: 14,
             },
 notFound: {
