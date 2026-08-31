@@ -5,22 +5,32 @@ import {
   ThemeProvider,
 } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { ThemePreferenceProvider, useThemePreference } from '@/providers/theme-preference-provider';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  return (
+    <ThemePreferenceProvider>
+      <ThemedRootLayout />
+    </ThemePreferenceProvider>
+  );
+}
+
+function ThemedRootLayout() {
+  const { theme } = useThemePreference();
 
   return (
-    <ThemeProvider
-      value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-    >
+    <ThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+      <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       <AnimatedSplashOverlay />
 
       <Stack screenOptions={{ headerShown: false }} />
+      <ThemeToggle />
     </ThemeProvider>
   );
 }

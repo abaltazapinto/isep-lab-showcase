@@ -2,12 +2,14 @@ import { Link } from 'expo-router';
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import type { Project } from '@/data/projects';
+import { useTheme } from '@/hooks/use-theme';
 
 type ProjectCardProps = {
   project: Project;
 };
 
 export function ProjectCard({ project }: ProjectCardProps) {
+  const theme = useTheme();
   return (
     <Link
       href={{
@@ -20,6 +22,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
         accessibilityLabel={`Open ${project.shortTitle}`}
         style={({ pressed }) => [
           styles.card,
+          { backgroundColor: theme.backgroundElement, borderColor: theme.border },
           pressed && styles.cardPressed,
         ]}
       >
@@ -27,14 +30,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
           accessibilityLabel={project.images[0].description}
           resizeMode="cover"
           source={project.images[0].source}
-          style={styles.image}
+          style={[styles.image, { backgroundColor: theme.mediaBackground }]}
         />
 
         <View style={styles.content}>
-          <Text style={styles.eyebrow}>{project.shortTitle}</Text>
-          <Text style={styles.title}>{project.title}</Text>
-          <Text style={styles.description}>{project.description}</Text>
-          <Text style={styles.linkText}>View project →</Text>
+          <Text style={[styles.eyebrow, { color: theme.accent }]}>{project.shortTitle}</Text>
+          <Text style={[styles.title, { color: theme.text }]}>{project.title}</Text>
+          <Text style={[styles.description, { color: theme.textSecondary }]}>{project.description}</Text>
+          <Text style={[styles.linkText, { color: theme.accent }]}>View project →</Text>
         </View>
       </Pressable>
     </Link>
@@ -46,9 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: '#27272a',
     borderRadius: 20,
-    backgroundColor: '#18181b',
   },
   cardPressed: {
     opacity: 0.8,
@@ -56,32 +57,27 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     aspectRatio: 4 / 3,
-    backgroundColor: '#27272a',
   },
   content: {
     padding: 20,
     gap: 10,
   },
   eyebrow: {
-    color: '#38bdf8',
     fontSize: 12,
     fontWeight: '700',
     letterSpacing: 1.5,
     textTransform: 'uppercase',
   },
   title: {
-    color: '#fafafa',
     fontSize: 24,
     fontWeight: '700',
   },
   description: {
-    color: '#a1a1aa',
     fontSize: 16,
     lineHeight: 24,
   },
   linkText: {
     marginTop: 4,
-    color: '#38bdf8',
     fontSize: 15,
     fontWeight: '700',
   },

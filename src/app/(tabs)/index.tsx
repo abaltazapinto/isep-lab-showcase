@@ -2,14 +2,16 @@ import { ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-n
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ProjectCard } from '@/components/project-card';
+import { useTheme } from '@/hooks/use-theme';
 import { projects } from '@/data/projects';
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
+  const theme = useTheme();
   const isDesktop = width >= 768;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
       <ScrollView
         contentContainerStyle={[
           styles.page,
@@ -17,25 +19,25 @@ export default function HomeScreen() {
         ]}
       >
         <View style={styles.hero}>
-          <Text style={styles.eyebrow}>ISEP EMBEDDED SYSTEMS</Text>
+          <Text style={[styles.eyebrow, { color: theme.accent }]}>ISEP EMBEDDED SYSTEMS</Text>
 
           <Text
             style={[
               styles.title,
-              { fontSize: isDesktop ? 56 : 40 },
+              { color: theme.text, fontSize: isDesktop ? 56 : 40 },
             ]}
           >
             Engineering projects
           </Text>
 
-          <Text style={styles.subtitle}>
+          <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
             A collection of embedded-systems projects developed during the
             Desenvolvimento de Sistemas Embebidos course.
           </Text>
         </View>
 
         <View style={styles.catalogue}>
-          <Text style={styles.sectionTitle}>Projects</Text>
+          <Text style={[styles.sectionTitle, { color: theme.text }]}>Projects</Text>
 
           <View style={styles.grid}>
             {projects.map((project) => (
@@ -52,8 +54,8 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>
+        <View style={[styles.footer, { borderTopColor: theme.border }]}>
+          <Text style={[styles.footerText, { color: theme.textMuted }]}>
             More laboratory projects will be added as they are documented and
             prepared for public presentation.
           </Text>
@@ -66,7 +68,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#09090b',
   },
   page: {
     width: '100%',
@@ -80,19 +81,16 @@ const styles = StyleSheet.create({
     gap: 16,
   },
   eyebrow: {
-    color: '#38bdf8',
     fontSize: 13,
     fontWeight: '700',
     letterSpacing: 2,
   },
   title: {
-    color: '#fafafa',
     fontWeight: '800',
     lineHeight: 64,
     maxWidth: 850,
   },
   subtitle: {
-    color: '#a1a1aa',
     fontSize: 20,
     lineHeight: 30,
     maxWidth: 760,
@@ -101,7 +99,6 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   sectionTitle: {
-    color: '#fafafa',
     fontSize: 28,
     fontWeight: '700',
   },
@@ -119,7 +116,6 @@ const styles = StyleSheet.create({
     paddingTop: 24,
   },
   footerText: {
-    color: '#71717a',
     fontSize: 14,
     lineHeight: 22,
   },
