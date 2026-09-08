@@ -197,3 +197,63 @@ documented evidence
 The portfolio should make it possible for another engineer or recruiter
 to understand not only what technologies were used, but how engineering
 problems were approached.
+
+# 08 - 09 - 26
+
+Estrutura que eu recomendo
+￼
+ISEP Embedded Systems
+│
+├── Fundamentos de Sistemas Embebidos
+│   └── nota: 16
+│
+├── Desenvolvimento de Sistemas Embebidos
+│   ├── nota: 17
+│   ├── PL5 Ex. II — Linux Kernel GPIO Blinker
+│   └── PL5 Ex. III — Software PWM Kernel Module
+│
+├── Programação Avançada de Sistemas Embebidos
+│   └── nota: 16
+│
+├── Protocolos e Topologias de Sistemas Embebidos
+│   └── nota: 16
+│
+├── Sistemas Operativos de Tempo Real
+│   └── nota: 12
+│
+└── período final
+    ├── Inteligência Artificial em Sistemas Embebidos
+    └── Integração de Sistemas e Serviços na Nuvem
+E faz sentido porque as notas que mostraste confirmam:
+Fundamentos 16, Desenvolvimento 17, Programação Avançada 16, Sistemas Operativos de Tempo Real 12; Protocolos e Topologias dizes que foi 16. As duas cadeiras finais que começam agora aparecem também na tua lista de inscrições.
+
+Para o site
+Eu não meteria a nota como elemento principal do card. O foco deve continuar a ser engenharia. A nota pode aparecer dentro da página da cadeira/projeto como contexto académico.
+
+Por exemplo, na secção Desenvolvimento de Sistemas Embebidos:
+
+￼
+Development of Embedded Systems
+Grade: 17/20
+
+Labs
+├── Linux Kernel GPIO Blinker
+│   Raspberry Pi 4 · C · Linux Kernel · GPIO · hrtimer
+│
+└── Software PWM Kernel Module
+    Raspberry Pi 4 · C · Linux Kernel · PWM · hrtimer
+Isto começa a transformar o Showcase num portefólio técnico real, e não numa lista de disciplinas.
+
+O próximo passo que eu faria é não implementar nada ainda: primeiro criamos uma Issue pequena para adicionar estes dois labs de DSIEM ao catálogo existente, sem mexer nas outras cadeiras. Depois fazemos branch → Codex → review, como acabámos de fazer com o theme toggle.
+
+
+# outra nota e sugestao 
+Development of Embedded Systems — 17/20
+
+PL5 Ex. II
+Linux Kernel GPIO Blinker
+Raspberry Pi 4 · C · Linux Kernel · GPIO · hrtimer
+
+PL5 Ex. III
+Software PWM Kernel Module
+Raspberry Pi 4 · C · Linux Kernel · PWM · hrtimer
