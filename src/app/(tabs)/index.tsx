@@ -43,12 +43,9 @@ export default function HomeScreen() {
             {projects.map((project) => (
               <View
                 key={project.id}
-                style={[
-                  styles.gridItem,
-                  { width: isDesktop ? '48.5%' : '100%' },
-                ]}
+                style={styles.gridItem}
               >
-                <ProjectCard project={project} />
+                <ProjectCard project={project} layout={isDesktop ? 'horizontal' : 'vertical'} />
               </View>
             ))}
           </View>
@@ -103,11 +100,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
     gap: 16,
   },
   gridItem: {
+    width: '100%',
     minWidth: 0,
   },
   footer: {
