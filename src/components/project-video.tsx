@@ -7,15 +7,16 @@ import { StyleSheet, View } from 'react-native';
 
 type ProjectVideoProps = {
   source: VideoSource;
+  accessibilityLabel: string;
 };
 
-export function ProjectVideo({ source }: ProjectVideoProps) {
+export function ProjectVideo({ source, accessibilityLabel }: ProjectVideoProps) {
   const player = useVideoPlayer(source);
 
   return (
     <View style={styles.frame}>
       <VideoView
-        accessibilityLabel="PGSCE Samorinha project demonstration"
+        accessibilityLabel={accessibilityLabel}
         contentFit="contain"
         fullscreenOptions={{ enable: true }}
         nativeControls
