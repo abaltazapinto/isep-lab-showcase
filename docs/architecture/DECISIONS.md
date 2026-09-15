@@ -1,0 +1,1 @@
+aqui sera as decisoes !!!
