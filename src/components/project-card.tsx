@@ -10,6 +10,7 @@ type ProjectCardProps = {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   const theme = useTheme();
+  const coverImage = project.images?.[0];
   return (
     <Link
       href={{
@@ -26,12 +27,14 @@ export function ProjectCard({ project }: ProjectCardProps) {
           pressed && styles.cardPressed,
         ]}
       >
-        <Image
-          accessibilityLabel={project.images[0].description}
-          resizeMode="cover"
-          source={project.images[0].source}
-          style={[styles.image, { backgroundColor: theme.mediaBackground }]}
-        />
+        {coverImage && (
+          <Image
+            accessibilityLabel={coverImage.description}
+            resizeMode="cover"
+            source={coverImage.source}
+            style={[styles.image, { backgroundColor: theme.mediaBackground }]}
+          />
+        )}
 
         <View style={styles.content}>
           <Text style={[styles.eyebrow, { color: theme.accent }]}>{project.shortTitle}</Text>

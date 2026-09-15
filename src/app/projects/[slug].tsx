@@ -2,6 +2,7 @@ import { Link, useLocalSearchParams } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { ExternalLink } from '@/components/external-link';
 import { ProjectGallery } from '@/components/project-gallery';
 import { ProjectVideo } from '@/components/project-video';
 import { getProjectById, projects } from '@/data/projects';
@@ -83,19 +84,42 @@ export default function HomeScreen() {
         <BulletList items={project.hardware} theme={theme} />
         </Section>
 
-        <Section theme={theme} title="Project gallery">
-        <ProjectGallery images={project.images} />
-        </Section>
+        {!!project.images?.length && (
+          <Section theme={theme} title="Project gallery">
+            <ProjectGallery images={project.images} />
+          </Section>
+        )}
 
-        <Section theme={theme} title="Demonstration">
-        <Text style={[styles.body, { color: theme.text }]}>{project.demonstration}</Text>
-        <ProjectVideo source={project.video} />
+        {(project.demonstration || project.video || project.engineeringNote) && (
+          <Section theme={theme} title="Demonstration">
+            {project.demonstration && (
+              <Text style={[styles.body, { color: theme.text }]}>{project.demonstration}</Text>
+            )}
+            {project.video && (
+              <ProjectVideo
+                source={project.video}
+                accessibilityLabel={`${project.shortTitle} hardware demonstration`}
+              />
+            )}
+            {project.engineeringNote && (
+              <Text style={[styles.engineeringNote, { borderLeftColor: theme.accent, color: theme.textSecondary }]}>
+                Engineering note: {project.engineeringNote}
+              </Text>
+            )}
+          </Section>
+        )}
 
-        <Text style={[styles.engineeringNote, { borderLeftColor: theme.accent, color: theme.textSecondary }]}>
-        Engineering note: {project.engineeringNote}
-      </Text>
-
-        </Section>
+        {project.repositoryUrl && (
+          <Section theme={theme} title="Source code">
+            <ExternalLink
+              href={project.repositoryUrl}
+              accessibilityLabel={`View ${project.shortTitle} source code on GitHub`}
+              style={[styles.body, { color: theme.accent }]}
+            >
+              View repository on GitHub ↗
+            </ExternalLink>
+          </Section>
+        )}
 
         <View style={[styles.footer, { borderTopColor: theme.border }]}>
         <Text style={[styles.footerText, { color: theme.textMuted }]}>
