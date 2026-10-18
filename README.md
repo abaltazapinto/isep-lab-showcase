@@ -113,7 +113,7 @@ Do not add an SPA catch-all rewrite to `/index.html`. Expo generates separate HT
 
 Open each route directly and refresh it. Confirm `/explore` redirects to `/about`, project links and media load, desktop/mobile navigation works, and light/dark selection persists after reload. Manual production validation remains pending until confirmed.
 
-Public URL: pending first deployment.
+Public URL: https://abaltaza-engineering-portfolio.netlify.app
 
 ## Project structure
 
