@@ -40,7 +40,7 @@ export default function HomeScreen() {
       { paddingHorizontal: isDesktop ? 40 : 20 },
       ]}
       >
-      <Link href="/" asChild>
+      <Link href="/projects" asChild>
       <Pressable
       accessibilityLabel="Back to project catalogue"
       style={({ pressed }) => [
@@ -54,7 +54,7 @@ export default function HomeScreen() {
       </Link>
 
       <View style={styles.hero}>
-      <Text style={[styles.eyebrow, { color: theme.accent }]}>ISEP ENGINEERING LAB</Text>
+      <Text style={[styles.eyebrow, { color: theme.accent }]}>ENGINEERING PORTFOLIO</Text>
 
       <Text
       style={[

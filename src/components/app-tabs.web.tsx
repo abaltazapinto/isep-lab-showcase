@@ -1,141 +1,104 @@
 import {
-	Tabs,
-		TabList,
-		TabTrigger,
-		TabSlot,
-		TabTriggerSlotProps,
-		TabListProps,
+  Tabs,
+  TabList,
+  TabTrigger,
+  TabSlot,
+  TabTriggerSlotProps,
+  TabListProps,
 } from 'expo-router/ui';
-import { SymbolView } from 'expo-symbols';
-import { Pressable, View, StyleSheet, useWindowDimensions } from 'react-native';
+import { Pressable, ScrollView, View, StyleSheet, useWindowDimensions } from 'react-native';
 
-import { ExternalLink } from './external-link';
 import { ThemedText } from './themed-text';
 import { ThemedView } from './themed-view';
-import { MaxContentWidth, Spacing } from '@/constants/theme';
+import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
 
 export default function AppTabs() {
-	const colors = useTheme();
-	return (
-			<Tabs>
-			<TabSlot style={[styles.tabSlot, { backgroundColor: colors.background }]} />
-			<TabList asChild>
-			<CustomTabList>
-			<TabTrigger name="home" href="/" asChild>
-			<TabButton>Home</TabButton>
-			</TabTrigger>
-			<TabTrigger name="explore" href="/explore" asChild>
-			<TabButton>Explore</TabButton>
-			</TabTrigger>
-			</CustomTabList>
-			</TabList>
-			</Tabs>
-	       );
+  const colors = useTheme();
+
+  return (
+    <Tabs>
+      <TabList asChild>
+        <CustomTabList>
+          <TabTrigger name="home" href="/" asChild>
+            <TabButton>Home</TabButton>
+          </TabTrigger>
+          <TabTrigger name="projects" href="/projects" asChild>
+            <TabButton>Projects</TabButton>
+          </TabTrigger>
+          <TabTrigger name="academic" href="/academic" asChild>
+            <TabButton>Academic</TabButton>
+          </TabTrigger>
+          <TabTrigger name="personal-labs" href="/personal-labs" asChild>
+            <TabButton>Personal Labs</TabButton>
+          </TabTrigger>
+          <TabTrigger name="about" href="/about" asChild>
+            <TabButton>About</TabButton>
+          </TabTrigger>
+        </CustomTabList>
+      </TabList>
+      <TabSlot style={[styles.tabSlot, { backgroundColor: colors.background }]} />
+    </Tabs>
+  );
 }
 
 export function TabButton({ children, isFocused, ...props }: TabTriggerSlotProps) {
-	return (
-			<Pressable {...props} style={({ pressed }) => pressed && styles.pressed}>
-			<ThemedView
-			type={isFocused ? 'backgroundSelected' : 'backgroundElement'}
-			style={styles.tabButtonView}>
-			<ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'}>
-			{children}
-			</ThemedText>
-			</ThemedView>
-			</Pressable>
-	       );
+  return (
+    <Pressable {...props} style={({ pressed }) => [styles.tabButton, pressed && styles.pressed]}>
+      <ThemedView
+        type={isFocused ? 'backgroundSelected' : 'backgroundElement'}
+        style={styles.tabButtonView}>
+        <ThemedText type="small" themeColor={isFocused ? 'text' : 'textSecondary'}>
+          {children}
+        </ThemedText>
+      </ThemedView>
+    </Pressable>
+  );
 }
 
-export function CustomTabList(props: TabListProps) {
-	const colors = useTheme();
-	const { width } = useWindowDimensions();
-	const isCompact = width < 520;
+export function CustomTabList({ children, style, ...props }: TabListProps) {
+  const colors = useTheme();
+  const { width } = useWindowDimensions();
+  const isCompact = width < 900;
 
-	return (
-			<View
-			{...props}
-			style={[
-			styles.tabListContainer,
-			{ backgroundColor: colors.background },
-			isCompact && styles.tabListContainerCompact,
-			]}
-			>
-			<ThemedView
-			type="backgroundElement"
-			style={[
-			styles.innerContainer,
-			isCompact && styles.innerContainerCompact,
-			]}
-			>
-			<ThemedText type="smallBold" style={styles.brandText}>
-			ISEP Lab
-			</ThemedText>
-			{props.children}
-			{!isCompact && (
-					<ExternalLink href="https://docs.expo.dev" asChild>
-					<Pressable style={styles.externalPressable}>
-					<ThemedText type="link">Docs</ThemedText>
-					<SymbolView
-					tintColor={colors.text}
-					name={{ ios: 'arrow.up.right.square', web: 'link' }}
-					size={12}
-					/>
-					</Pressable>
-					</ExternalLink>
-				       )}
-			</ThemedView>
-				</View>
-				);
+  return (
+    <View {...props} style={[style, styles.tabListContainer, { backgroundColor: colors.background }]}>
+      <ThemedView
+        type="backgroundElement"
+        style={[styles.innerContainer, isCompact && styles.innerContainerCompact]}>
+        <ThemedText type="smallBold" style={styles.brandText}>
+          Engineering Portfolio
+        </ThemedText>
+        <ScrollView horizontal style={styles.navigation} contentContainerStyle={styles.links}>
+          {children}
+        </ScrollView>
+      </ThemedView>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-tabSlot: {
-height: '100%',
-paddingTop: 88,
-},
-tabListContainer: {
-position: 'absolute',
-width: '100%',
-padding: Spacing.three,
-justifyContent: 'center',
-flexDirection: 'row',
-alignItems: 'center',
-zIndex: 10,
-},
-tabListContainerCompact: {
-paddingHorizontal: 8,
-},
-innerContainerCompact: {
-paddingHorizontal: Spacing.three,
-		       },
-innerContainer: {
-paddingVertical: Spacing.two,
-		 paddingHorizontal: Spacing.five,
-		 borderRadius: Spacing.five,
-		 flexDirection: 'row',
-		 alignItems: 'center',
-		 flexGrow: 1,
-		 gap: Spacing.two,
-		 maxWidth: MaxContentWidth,
-		},
-brandText: {
-marginRight: 'auto',
-	   },
-pressed: {
-opacity: 0.7,
-	 },
-tabButtonView: {
-paddingVertical: Spacing.one,
-		 paddingHorizontal: Spacing.three,
-		 borderRadius: Spacing.three,
-	       },
-externalPressable: {
-flexDirection: 'row',
-	       justifyContent: 'center',
-	       alignItems: 'center',
-	       gap: Spacing.one,
-	       marginLeft: Spacing.three,
-		   },
-		   });
+  tabSlot: { flex: 1, minHeight: 0 },
+  tabListContainer: { width: '100%', padding: Spacing.three, alignItems: 'center', flexShrink: 0 },
+  innerContainer: {
+    width: '100%',
+    maxWidth: 1100,
+    paddingVertical: Spacing.two,
+    paddingHorizontal: Spacing.three,
+    borderRadius: Spacing.five,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.two,
+  },
+  innerContainerCompact: { flexDirection: 'column', alignItems: 'stretch' },
+  brandText: { marginRight: 'auto', padding: Spacing.two },
+  navigation: { flexGrow: 0, flexShrink: 1, minWidth: 0 },
+  links: { flexDirection: 'row', alignItems: 'center', gap: Spacing.one },
+  tabButton: { flexShrink: 0 },
+  pressed: { opacity: 0.7 },
+  tabButtonView: {
+    paddingVertical: Spacing.two,
+    paddingHorizontal: Spacing.three,
+    borderRadius: Spacing.three,
+  },
+});
